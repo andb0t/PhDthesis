@@ -516,7 +516,7 @@ FUNCTION {format.volume}
 FUNCTION {format.number}
 { number empty$
     { "" }
-    { number *}
+    { "{" number * "} " * }
   if$
 }
 
