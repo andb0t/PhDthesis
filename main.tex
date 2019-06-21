@@ -1,0 +1,912 @@
+\documentclass[a4paper,11pt,twoside,openright,notitlepage]{report}
+
+\usepackage[ngerman,english,greek]{babel}
+% \usepackage[Conny]{fncychap}
+\usepackage{expdlist}
+\usepackage[title,titletoc,toc]{appendix}
+
+
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage[dvipsnames]{xcolor}
+\definecolor{dark-blue}{rgb}{0,0,0.3}
+\usepackage{hyperref}
+\hypersetup{
+     colorlinks   = true,
+     citecolor    = blue,
+     linkcolor    = black, %dark-blue
+     urlcolor     = blue %dark-blue
+}
+\usepackage{amsmath}
+\usepackage{cleveref}
+\usepackage[toc,nonumberlist,nopostdot]{glossaries} %nogroupskip,xindy %load hyperref before for clickable links
+\usepackage{glossary-mcols}
+
+\usepackage{tocloft,url}
+
+
+%%for todo command
+\newlistof{links}{lks}{ISSUES TO CLARIFY}
+\newcommand\externallink[1]{%
+  \refstepcounter{links}%
+  \addcontentsline{lks}{links}{%
+    \protect\numberline{\thelinks}%
+    #1%
+  }%
+}
+%%end for todo command
+
+
+\usepackage{etoolbox} %robustify certain commands for usage in figure captions
+\robustify{\gls}
+\robustify{\glspl}
+\usepackage{array}
+\usepackage{newtxtext,newtxmath,amstext,amssymb}
+\allowdisplaybreaks[1]
+\usepackage{relsize}
+\usepackage{bm}
+\usepackage{cite}
+\usepackage{xspace}
+\usepackage{emptypage}
+% \usepackage{psfrag,graphicx,subfigure}
+\usepackage{xcolor,colortbl}
+\usepackage{psfrag,graphicx}
+\usepackage[font=small]{caption}
+
+
+\usepackage[subrefformat=parens,labelformat=parens]{subfig}
+
+\usepackage{epstopdf}
+\usepackage{calc}
+\usepackage{booktabs,longtable}
+\usepackage{multirow}
+\usepackage{multicol}
+\setlength{\parindent}{0in}
+\usepackage{lineno}
+\usepackage{rotating}
+% \linenumbers
+
+
+%  \usepackage[T1]{fontenc}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%% N E W C O M M A N D S
+
+
+
+%------------------------------------------------------------------------------------
+%----------------------  Newcommands for values -------------------------------------
+%------------------------------------------------------------------------------------
+
+%8 TeV
+\newcommand{\atlumo                    }{\ensuremath{20.3}\xspace}
+\newcommand{\atlumounc                 }{\ensuremath{2.8\%}\xspace}
+\newcommand{\xsecunc                   }{\ensuremath{5.4\%}\xspace}
+\newcommand{\stopxsecunc               }{\ensuremath{5.0\%}\xspace}
+\newcommand{\qcdunc                    }{\ensuremath{100\%}\xspace}
+\newcommand{\JESunc                    }{\ensuremath{4.1\%}\xspace}
+\newcommand{\bJESunc                   }{\ensuremath{2.2\%}\xspace}
+\newcommand{\btagunc                   }{\ensuremath{2.8\%}\xspace}
+
+%8 TeV standard
+%selection
+\newcommand{\DLevtexc                  }{\ensuremath{1\%}\xspace}
+
+\newcommand{\eff                       }{\ensuremath{78.4}\xspace}
+\newcommand{\effunc                    }{\ensuremath{0.2}\xspace}
+\newcommand{\fracmatch                 }{\ensuremath{51.6}\xspace}
+\newcommand{\fracmatchunc              }{\ensuremath{0.1}\xspace}
+\newcommand{\fracunmatch               }{\ensuremath{34.2}\xspace}
+\newcommand{\fracunmatchunc            }{\ensuremath{0.1}\xspace}
+\newcommand{\fracwrong                 }{\ensuremath{14.2}\xspace}
+\newcommand{\fracwrongunc              }{\ensuremath{0.1}\xspace}
+
+\newcommand{\effoneb                   }{\ensuremath{77.1}\xspace}
+\newcommand{\effonebunc                }{\ensuremath{0.4}\xspace}
+\newcommand{\fracmatchoneb             }{\ensuremath{38.5}\xspace}
+\newcommand{\fracmatchonebunc          }{\ensuremath{0.2}\xspace}
+\newcommand{\fracunmatchoneb           }{\ensuremath{50.0}\xspace}
+\newcommand{\fracunmatchonebunc        }{\ensuremath{0.1}\xspace}
+\newcommand{\fracwrongoneb             }{\ensuremath{11.4}\xspace}
+\newcommand{\fracwrongonebunc          }{\ensuremath{0.1}\xspace}
+
+\newcommand{\efftwob                   }{\ensuremath{79.4}\xspace}
+\newcommand{\efftwobunc                }{\ensuremath{0.3}\xspace}
+\newcommand{\fracmatchtwob             }{\ensuremath{69.2}\xspace}
+\newcommand{\fracmatchtwobunc          }{\ensuremath{0.3}\xspace}
+\newcommand{\fracunmatchtwob           }{\ensuremath{12.8}\xspace}
+\newcommand{\fracunmatchtwobunc        }{\ensuremath{0.1}\xspace}
+\newcommand{\fracwrongtwob             }{\ensuremath{18.0}\xspace}
+\newcommand{\fracwrongtwobunc          }{\ensuremath{0.1}\xspace}
+
+%results
+\newcommand{\ExpstatuncStandard        }{\ensuremath{0.22\pm0.01}\xspace}
+\newcommand{\EightValueStandard        }{\ensuremath{172.59}\xspace}%blinded
+\newcommand{\EightStatStandard         }{\ensuremath{0.22}\xspace}
+\newcommand{\EightSystStandard         }{\ensuremath{1.06}\xspace}
+\newcommand{\EightTotStandard          }{\ensuremath{1.08}\xspace}
+
+% \newcommand{\BDTstandardStatCompatibility }{\ensuremath{1.76}\xspace}
+% \newcommand{\CutstandardStatCompatibility }{\ensuremath{1.22}\xspace}
+
+\newcommand{\EightSystStandardImprovementSeven }{\ensuremath{19\%}\xspace}
+
+%cut
+%selection
+\newcommand{\Cutmatcheff               }{\ensuremath{96.9}\xspace}
+\newcommand{\Cutmatcheffunc            }{\ensuremath{0.5}\xspace}
+\newcommand{\Cutsignalpurity           }{\ensuremath{68.1}\xspace}
+\newcommand{\Cutsignalpurityunc        }{\ensuremath{0.3}\xspace}
+\newcommand{\fracunmatchopti           }{\ensuremath{29.8}\xspace}
+\newcommand{\fracunmatchoptiunc        }{\ensuremath{0.2}\xspace}
+\newcommand{\fracwrongopti             }{\ensuremath{ 2.2}\xspace}
+\newcommand{\fracwrongoptiunc          }{\ensuremath{0.0}\xspace}
+
+
+\newcommand{\DLevtexcopti              }{\ensuremath{9\%}\xspace}
+\newcommand{\OptiFraction              }{\ensuremath{21\%}\xspace}
+\newcommand{\bkgfrEightTeV             }{\ensuremath{0.01}\xspace}
+\newcommand{\bkgfrEightTeVunc          }{\ensuremath{0.00}\xspace}
+%results
+\newcommand{\ExpstatuncEight           }{\ensuremath{0.48}\xspace}
+\newcommand{\ExpstatuncEightunc        }{\ensuremath{0.01}\xspace}
+% \newcommand{\EightValue                }{\ensuremath{172.43}\xspace}%unblinded
+\newcommand{\EightValue                }{\ensuremath{173.06}\xspace}%blinded
+\newcommand{\EightStat                 }{\ensuremath{0.46}\xspace}
+\newcommand{\EightSyst                 }{\ensuremath{0.83}\xspace}
+\newcommand{\EightTot                  }{\ensuremath{0.95}\xspace}
+\newcommand{\EightSystImprovementSeven }{\ensuremath{37\%}\xspace}
+
+%BDT
+%selection
+\newcommand{\BDTcutpureff              }{\ensuremath{-0.07}\xspace}
+\newcommand{\BDTcuteff                 }{\ensuremath{0.045}\xspace}
+\newcommand{\BDTcutoptieff             }{\ensuremath{-0.03}\xspace}
+\newcommand{\BDTOptiFraction           }{\ensuremath{46\%}\xspace}
+
+\newcommand{\BDTmatcheff               }{\ensuremath{90.4}\xspace}
+\newcommand{\BDTmatcheffunc            }{\ensuremath{0.3}\xspace}
+\newcommand{\BDTsignalpurity           }{\ensuremath{73.6}\xspace}
+\newcommand{\BDTsignalpurityunc        }{\ensuremath{0.2}\xspace}
+\newcommand{\BDTfracunmatch            }{\ensuremath{18.6}\xspace}
+\newcommand{\BDTfracunmatchunc         }{\ensuremath{0.1}\xspace}
+\newcommand{\BDTfracwrong              }{\ensuremath{ 7.8}\xspace}
+\newcommand{\BDTfracwrongunc           }{\ensuremath{0.1}\xspace}
+
+\newcommand{\bkgfrBDT                  }{\ensuremath{0.01}\xspace}
+\newcommand{\bkgfrBDTunc               }{\ensuremath{0.01}\xspace}
+%results
+\newcommand{\ExpstatuncBDT             }{\ensuremath{0.32\pm0.01}\xspace}
+% \newcommand{\BDTValue                }{\ensuremath{171.62}\xspace}%unblinded
+\newcommand{\BDTValue                }{\ensuremath{172.25}\xspace}%blinded
+\newcommand{\BDTStat                 }{\ensuremath{0.32}\xspace}
+\newcommand{\BDTSyst                 }{\ensuremath{0.80}\xspace}
+\newcommand{\BDTSystUnc              }{\ensuremath{0.22}\xspace}
+\newcommand{\BDTTot                  }{\ensuremath{0.86}\xspace}
+\newcommand{\BDTTotUnc               }{\ensuremath{0.22}\xspace}
+\newcommand{\BDTSystImprovementSeven }{\ensuremath{39\%}\xspace}
+
+%BDT and cut
+% \newcommand{\BDTcutStatCompatibility }{\ensuremath{2.41}\xspace}     %estimated from common events in samples %unblinded
+% \newcommand{\BDTcutStatCompatibility }{\ensuremath{2.44}\xspace}     %estimated from common events in samples %blinded
+% \newcommand{\BDTcutCommonEvents      }{\ensuremath{47.0\%}\xspace}  %estimated from common events in samples
+% \newcommand{\BDTcutStatCorrelation   }{\ensuremath{69.0\%}\xspace}  %estimated from common events in samples
+% \newcommand{\BDTcutCorrelation       }{\ensuremath{54.6\%}\xspace}  %estimated with BLUE %unblinded
+\newcommand{\BDTcutCorrelation       }{\ensuremath{54.8\%}\xspace}  %estimated with BLUE %blinded
+\newcommand{\BDTcutCompatibility     }{\ensuremath{0.94}\xspace}  %estimated with BLUE
+
+%BLUE all
+% \newcommand{\CombValue                 }{\ensuremath{172.02}\xspace}%unblinded
+\newcommand{\CombValue                 }{\ensuremath{172.40}\xspace}%blinded
+\newcommand{\CombStat                  }{\ensuremath{0.31}\xspace}
+\newcommand{\CombSyst                  }{\ensuremath{0.62}\xspace}
+\newcommand{\CombTot                   }{\ensuremath{0.70}\xspace}
+\newcommand{\CombImprovement           }{\ensuremath{19\%}\xspace} %to be calculated from total uncertainties
+% \newcommand{\CombChiSqProb             }{\ensuremath{20.1\%}\xspace}%unblinded
+\newcommand{\CombChiSqProb             }{\ensuremath{46.4\%}\xspace}%blinded
+\newcommand{\CombWeightLLseven         }{\ensuremath{+0.316}\xspace}
+\newcommand{\CombWeightDLseven         }{\ensuremath{+0.083}\xspace}
+\newcommand{\CombWeightDLeight         }{\ensuremath{+0.601}\xspace}
+\newcommand{\CompatibSeven             }{\ensuremath{0.75}\xspace}
+\newcommand{\CompatibMixed             }{\ensuremath{0.04}\xspace}%blinded
+% \newcommand{\CompatibMixed             }{\ensuremath{0.45}\xspace}%unblinded
+\newcommand{\CompatibDil               }{\ensuremath{1.24}\xspace}%blinded
+% \newcommand{\CompatibDil               }{\ensuremath{1.75}\xspace}%unblinded
+\newcommand{\CorrDil                   }{\ensuremath{+0.49}\xspace}
+\newcommand{\CorrDilUnc                }{\ensuremath{0.04}\xspace}
+\newcommand{\CorrEightDilSevenLj       }{\ensuremath{-0.03}\xspace}
+\newcommand{\CorrEightDilSevenLjUnc    }{\ensuremath{0.05}\xspace}
+% \newcommand{\CombValueStrongDiff       }{\ensuremath{-10}\xspace}%unblinded
+\newcommand{\CombValueStrongDiff       }{\ensuremath{-8}\xspace}%blinded
+\newcommand{\CombTotStrongDiff         }{\ensuremath{-3}\xspace}
+% \newcommand{\CombValueStab             }{\ensuremath{92}\xspace}%unblinded
+\newcommand{\CombValueStab             }{\ensuremath{59}\xspace}%blinded
+\newcommand{\CombTotStab               }{\ensuremath{30}\xspace}
+
+
+
+
+%BLUE DL
+% \newcommand{\CombValueDL               }{\ensuremath{171.83}\xspace}%unblinded
+\newcommand{\CombValueDL               }{\ensuremath{172.40}\xspace}%blinded
+\newcommand{\CombStatDL                }{\ensuremath{0.29}\xspace}
+\newcommand{\CombSystDL                }{\ensuremath{0.80}\xspace}
+\newcommand{\CombTotDL                 }{\ensuremath{0.85}\xspace}
+\newcommand{\CombImprovementDL         }{\ensuremath{1\%}\xspace} %to be calculated from total uncertainties
+% \newcommand{\CombChiSqProbDL           }{\ensuremath{8.1\%}\xspace}%unblinded
+\newcommand{\CombChiSqProbDL           }{\ensuremath{21.5\%}\xspace}%blinded
+\newcommand{\CombWeightDLsevenDL       }{\ensuremath{+0.095}\xspace}
+\newcommand{\CombWeightDLeightDL       }{\ensuremath{+0.905}\xspace}
+% \newcommand{\CombValueStrongDiffDL     }{\ensuremath{-10}\xspace}%unblinded
+\newcommand{\CombValueStrongDiffDL     }{\ensuremath{-7}\xspace}%blinded
+\newcommand{\CombTotStrongDiffDL       }{\ensuremath{+1}\xspace}
+% \newcommand{\CombValueStabDL           }{\ensuremath{102}\xspace}%unblinded
+\newcommand{\CombValueStabDL           }{\ensuremath{73}\xspace}%blinded
+\newcommand{\CombTotStabDL             }{\ensuremath{42}\xspace}
+
+
+
+%unfolding
+%selection
+\newcommand{\passtruefracnoptlbcut     }{\ensuremath{32.2\%}\xspace}
+\newcommand{\passrecofracnoptlbcut     }{\ensuremath{10.8\%}\xspace}
+\newcommand{\passtruefrac              }{\ensuremath{8.2\%}\xspace}
+\newcommand{\passrecofrac              }{\ensuremath{2.6\%}\xspace}
+\newcommand{\passbothfrac              }{\ensuremath{1.9\%}\xspace}
+%performance
+\newcommand{\averagebias               }{\ensuremath{-0.22~\GeV}\xspace}
+\newcommand{\averageres                }{\ensuremath{4.4~\GeV}\xspace}
+\newcommand{\eventsinpeak              }{\ensuremath{69\%}\xspace}
+\newcommand{\closureaveragebiasbelow       }{\ensuremath{0.68\pm0.49}\xspace}
+\newcommand{\closureaveragewidthbelow      }{\ensuremath{2.74\pm0.22}\xspace}
+\newcommand{\closureaveragebiasabove       }{\ensuremath{0.05\pm0.56}\xspace}
+\newcommand{\closureaveragewidthabove      }{\ensuremath{2.29\pm0.28}\xspace}
+
+\newcommand{\UnfValue                  }{\ensuremath{172.90}\xspace}%blinded
+\newcommand{\UnfStat                   }{\ensuremath{0.33}\xspace}
+\newcommand{\UnfStatScaleFac           }{\ensuremath{1.56}\xspace}
+\newcommand{\UnfStatScaled             }{\ensuremath{0.51}\xspace}
+\newcommand{\UnfStatUnfPart            }{\ensuremath{0.23}\xspace}
+\newcommand{\DiffSignUnfReco           }{\ensuremath{0.69}\xspace}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%% G L O S S A R Y
+% Generate the glossary: >> makeglossaries main
+\renewcommand{\glossarysection}[2][]{}
+\makeglossaries
+\newglossaryentry{LHC}{name=LHC, description={Large Hadron Collider}, first=LHC~(Large Hadron Collider)}
+\newglossaryentry{HLLHC}{name=HL-LHC, description={High Luminosity \gls{LHC}}, first=High Luminosity \gls{LHC}~(HL-LHC)}
+\newglossaryentry{LEP}{name=LEP, description={Large Electron Positron collider}, first={LEP~(Large Electron Positron collider)}}
+\newglossaryentry{ATLAS}{name=ATLAS, description={A Toroidal \gls{LHC} AparatuS}, first={ATLAS~(A Toroidal \gls{LHC} AparatuS)}}
+\newglossaryentry{CERN}{name=CERN, description={European organisation for Nuclear Research}, first={CERN~(European organisation for Nuclear Research)}}
+\newglossaryentry{SCT}{name=SCT, description={SemiConductor Tracker}, first={SemiConductor Tracker~(SCT)}}
+\newglossaryentry{TRT}{name=TRT, description={Transition Radiation Tracker}, first={Transition Radiation Tracker~(TRT)}}
+\newglossaryentry{ID}{name=ID, description={Inner Detector}, first={Inner Detector~(ID)}}
+\newglossaryentry{LAr}{name=LAr, description={Liquid Argon}, first={Liquid Argon~(LAr)}}
+\newglossaryentry{HEC}{name=HEC, description={Hadronic End Cap}, first={Hadronic End Cap~(HEC)}}
+\newglossaryentry{ECAL}{name=ECAL, description={Electromagnetic CALorimeter}, first={Electromagnetic CALorimeter~(ECAL)}}
+\newglossaryentry{HCAL}{name=HCAL, description={Hadronic CALorimeter}, first={Hadronic CALorimeter~(HCAL)}}
+\newglossaryentry{CMS}{name=CMS, description={Compact Muon Solenoid}, first={CMS~(Compact Muon Solenoid)}}
+\newglossaryentry{LHCb}{name=LHCb, description={\gls{LHC} beauty experiment}, first={LHCb~(\gls{LHC} beauty)}}
+\newglossaryentry{ALICE}{name=ALICE, description={A Large Ion Collider Experiment}, first={ALICE~(A Large Ion Collider Experiment)}}
+\newglossaryentry{MDT}{name=MDT, description={Monitored Drift Tube chamber}, first={Monitored Drift Tube chambers~(MDT)}}
+\newglossaryentry{sMDT}{name=sMDT, description={small \gls{LHC}}, first={small Monitored Drift Tube chamber~(sMDT)}}
+\newglossaryentry{MS}{name=MS, description={Muon System}, first={Muon System~(MS)}}
+\newglossaryentry{CSC}{name=CSC, description={Cathode Strip Chamber}, first={Cathode Strip Chamber~(CSC)}}
+\newglossaryentry{RPC}{name=RPC, description={Resistive Plate Chamber}, first={Resistive Plate Chamber~(RPC)}}
+\newglossaryentry{TGC}{name=TGC, description={Thin Gap Chamber}, first={Thin Gap Chamber~(TGC)}}
+\newglossaryentry{DAQ}{name=DAQ, description={Data AcQuisition}, first={Data AcQuisition~(DAQ)}}
+\newglossaryentry{HLT}{name=HLT, description={High Level Trigger}, first={High Level Trigger~(HLT)}}
+\newglossaryentry{DCS}{name=DCS, description={Detector Control System}, first={Detector Control Systems~(DCS)}}
+\newglossaryentry{ROI}{name=ROI, description={Region Of Interest}, first={Regions Of Interest~(ROI)}}
+\newglossaryentry{EF}{name=EF, description={Event Filter}, first={Event Filter~(EF)}}
+\newglossaryentry{WLCG}{name=WLCG, description={Worldwide \gls{LHC} Computing Grid}, first={Worldwide \gls{LHC} Computing Grid~(WLCG)}}
+\newglossaryentry{SM}{name=SM, description={Standard Model}, first={Standard Model of particle physics~(SM)}}
+\newglossaryentry{BSM}{name=BSM, description={Beyond the Standard Model}, first={Beyond the Standard Model~(BSM)}}
+\newglossaryentry{QED}{name=QED, description={Quantum ElectroDynamics}, first={Quantum ElectroDynamics~(QED)}}
+\newglossaryentry{QCD}{name=QCD, description={Quantum ChromoDynamics}, first={Quantum ChromoDynamics~(QCD)}}
+\newglossaryentry{QFT}{name=QFT, description={Quantum Field Theory}, first={Quantum Field Theory~(QFT)}}
+\newglossaryentry{ToE}{name=ToE, description={Theory of Everything}, first={Theory of Everything~(ToE)}}
+\newglossaryentry{GUT}{name=GUT, description={Grand Unified Theory}, first={Grand Unified Theory~(GUT)}}
+\newglossaryentry{SUSY}{name=SUSY, description={SUperSYmmetry}, first={SUperSYmmetry~(SUSY)}}
+\newglossaryentry{LSP}{name=LSP, description={Lightest Supersymmetric Particle}, first={Lightest Supersymmetric Particle~(LSP)}}
+\newglossaryentry{GR}{name=GR, description={theory of General Relativity}, first={theory of General Relativity~(GR)}}
+\newglossaryentry{CKM}{name=CKM, description={Cabibbo--Kobayashi--Maskawa}, first={Ca\-bib\-bo--Ko\-ba\-ya\-shi--Mas\-ka\-wa~(CKM)}}
+\newglossaryentry{D0}{name=D$\boldsymbol{\emptyset}$, sort=D0, text={D$\emptyset$}, description={D$\emptyset$ Detector}, first={D$\emptyset$~(D$\emptyset$ Detector)}}
+\newglossaryentry{CDF}{name=CDF, description={Collider Detector at Fermilab}, first={CDF~(Collider Detector at Fermilab)}}
+\newglossaryentry{CP}{name=CP, description={Charge--Parity}, first={Charge--Parity~(CP)}}
+\newglossaryentry{MC}{name=MC, description={Monte Carlo}, first={Monte Carlo~(MC)}}
+\newglossaryentry{NP}{name=NP, description={Non-Prompt}, first={Non-Prompt~(NP)}}
+\newglossaryentry{LO}{name=LO, description={Leading-Order}, first={Leading-Order~(LO)}}
+\newglossaryentry{NLO}{name=NLO, description={Next-to-Leading Order}, first={Next-to-Leading Order~(NLO)}}
+\newglossaryentry{NNLO}{name=NNLO, description={Next-to-Next-to-Leading Order}, first={Next-to-Next-to-Leading Order~(NNLO)}}
+\newglossaryentry{NNLL}{name=NNLL, description={Next-to-Next-to-Leading Logarithm}, first={Next-to-Next-to-Leading Logarithm~(NNLL)}}
+\newglossaryentry{PDF}{name=PDF, long={Parton Distribution Function}, short={PDF}, description={Parton Distribution Function}, first={Parton Distribution Functions~(PDF)}}
+\newglossaryentry{EM}{name=EM, description={ElectroMagnetic}, first={ElectroMagnetic~(EM)}}
+\newglossaryentry{BW}{name=BW, description={Breit--Wigner}, first={Breit--Wigner~(BW)}}
+\newglossaryentry{TF}{name=TF, description={Transfer Function}, first={Transfer Functions~(TF)}}
+\newglossaryentry{JES}{name=JES, description={Jet Energy Scale}, first={Jet Energy Scale~(JES)}}
+% \newglossaryentry{bJES}{name=bJES, description={relative $b$-to-light-Jet Energy Scale}, first={$b$-to-light-Jet Energy Scale~(bJES)}}
+\newglossaryentry{bJES}{name=bJES, description={relative $b$-to-light-Jet Energy Scale}, first={relative $b$-to-light-Jet Energy Scale~(bJES)}}
+\newglossaryentry{JSF}{name=\ensuremath{\mbox{JSF}}, sort=JSF, description={Jet energy Scale Factor}, first={Jet energy Scale Factor~(\ensuremath{\mbox{JSF}})}}
+\newglossaryentry{bJSF}{name=\ensuremath{\mbox{bJSF}}, sort=bJSF, description={relative $b$-to-light-Jet energy Scale Factor}, first={relative $b$-to-light-Jet energy Scale Factor~(\ensuremath{\mbox{bJSF}})}}
+\newglossaryentry{pdf}{name=pdf, description={probability density function}, first={probability density function~(pdf)}}
+% \newglossaryentry{pp}{name=\ensuremath{\boldsymbol{pp}}, sort=pp, text={\ensuremath{pp}}, description={proton--proton}, first={proton--proton~(\ensuremath{pp})}}
+\newglossaryentry{ISR}{name=ISR, description={Initial State \gls{QCD} Radiation}, first={Initial State \gls{QCD} Radiation~(ISR)}}
+\newglossaryentry{FSR}{name=FSR, description={Final State \gls{QCD} Radiation}, first={Final State \gls{QCD} Radiation~(FSR)}}
+\newglossaryentry{ISRFSR}{name=ISR/FSR, description={Initial and Final State \gls{QCD} Radiation}, first={Initial and Final State \gls{QCD} Radiation~(ISR/FSR)}}
+\newglossaryentry{UE}{name=UE, description={Underlying Event}, first={Underlying Event~(UE)}}
+\newglossaryentry{CR}{name=CR, description={Colour Reconnection}, first={Colour Reconnection~(CR)}}
+\newglossaryentry{JER}{name=JER, description={Jet Energy Resolution}, first={Jet Energy Resolution~(JER)}}
+\newglossaryentry{JRE}{name=JRE, description={Jet Reconstruction Efficiency}, first={Jet Reconstruction Efficiency~(JRE)}}
+\newglossaryentry{JVF}{name=JVF, description={Jet Vertex Fraction}, first={Jet Vertex Fraction~(JVF)}}
+\newglossaryentry{BLUE}{name=BLUE, description={Best Linear Unbiased Estimate}, first={Best Linear Unbiased Estimate~(BLUE)}}
+\newglossaryentry{NuP}{name=NuP, description={Nuisance Parameter}, first={Nuisance Parameters~(NuP)}}
+\newglossaryentry{NWA}{name=NWA, description={Narrow Width Approximation}, first={Narrow Width Approximation~(NWA)}}
+\newglossaryentry{EW}{name=EW, description={ElectroWeak}, first={ElectroWeak~(EW)}}
+% \newglossaryentry{MSbar}{name=\ensuremath{\boldsymbol{\bar{\mathrm{MS}}}}}, sort=MS, text={\ensuremath{\bar{\mathrm{MS}}}}, description={modified Minimal Subtraction}, first={modified Minimal Subtraction~(\ensuremath{\bar{\mathrm{MS}}})}}
+\newglossaryentry{MSbar}{name=\ensuremath{\boldsymbol{\ensuremath{\overline{\mathrm{MS}}}}}, sort=MS, text={\ensuremath{\overline{\mathrm{MS}}}}, description={modified Minimal Subtraction}, first={modified Minimal Subtraction~(\ensuremath{\overline{\mathrm{MS}}})}}
+\newglossaryentry{LS1}{name=LS1, description={Long Shutdown 1}, first={Long Shutdown 1~(LS1)}}
+\newglossaryentry{LS2}{name=LS2, description={Long Shutdown 2}, first={Long Shutdown 2~(LS2)}}
+\newglossaryentry{IBL}{name=IBL, description={Insertable B-Layer}, first={IBL~(Insertable B-Layer)}}
+\newglossaryentry{SQP}{name=SQP, description={Service Quarter Panel}, first={Service Quarter Panels~(SQP)}}
+\newglossaryentry{nSQP}{name=nSQP, description={new Service Quarter Panel}, first={new Service Quarter Panels~(nSQP)}}
+\newglossaryentry{LV}{name=LV, description={Low Voltage}, first={Low Voltage~(LV)}}
+\newglossaryentry{HV}{name=HV, description={High Voltage}, first={High Voltage~(HV)}}
+\newglossaryentry{ROD}{name=ROD, description={Read Out Driver}, first={Read Out Driver~(ROD)}}
+\newglossaryentry{BOC}{name=BOC, description={Back Of Crate card}, first={Back Of Crate card~(BOC)}}
+\newglossaryentry{PST}{name=PST, description={Pixel Support Tube}, first={Pixel Support Tube~(PST)}}
+\newglossaryentry{ToT}{name=ToT, description={Time over Threshold}, first={Time over Threshold~(ToT)}}
+\newglossaryentry{MCC}{name=MCC, description={Module Controller Chip}, first={Module Controller Chip~(MCC)}}
+\newglossaryentry{FE}{name=FE, description={Front End}, first={Front End~(FE)}}
+\newglossaryentry{NTC}{name=NTC, description={Negative Temperature Coefficient sensor}, first={Negative Temperature Coefficient sensor~(NTC)}}
+\newglossaryentry{TMT}{name=TMT, description={Thermal Management Tile}, first={Thermal Management Tile~(TMT)}}
+\newglossaryentry{PP}{name=PP, description={Patch Panel}, first={Patch Panels~(PP)}}
+\newglossaryentry{ELCO}{name=ELCO, description={Brand name of \gls{PP}0 connectors}, first={\gls{PP}0 connectors~(ELCO)}}
+\newglossaryentry{DTO}{name=DTO, description={Data Transmission Output}, first={Data Transmission Output~(DTO)}}
+\newglossaryentry{TDR}{name=TDR, description={Time Domain Reflectometry}, first={Time Domain Reflectometry~(TDR)}}
+\newglossaryentry{QA}{name=QA, description={Quality Assurance}, first={Quality Assurance~(QA)}}
+\newglossaryentry{QGF}{name=QGF, description={Quark Gluon Fraction}, first={Quark Gluon Fraction~(QGF)}}
+% \newglossaryentry{nvtx}{name=\ensuremath{\boldsymbol{n_\mathrm{vtx}}}, sort=nvtx, text={\ensuremath{n_\mathrm{vtx}}}, description={Number of reconstructed primary vertices}, first={number of reconstructed primary vertices~(\ensuremath{n_\mathrm{vtx}})}}
+% \newglossaryentry{mu}{name=\ensuremath{\boldsymbol{\langle\mu\rangle}}, sort=mu, text={\ensuremath{\langle\mu\rangle}}, description={Average number of inelastic \pp\ interactions per bunch crossing}, first={average number of inelastic \pp\ interactions per bunch crossing~(\ensuremath{\langle\mu\rangle})}}
+\newglossaryentry{MVA}{name=MVA, description={MultiVariate Analysis}, first={MultiVariate Analysis~(MVA)}}
+\newglossaryentry{BDT}{name=BDT, description={Boosted Decision Tree}, first={Boosted Decision Tree~(BDT)}}
+\newglossaryentry{LCW}{name=LCW, description={Local Cluster Weighting}, first={Local Cluster Weighting~(LCW)}}
+\newglossaryentry{HFOR}{name=HFOR, description={Heavy Flavour Overlap-Removal}, first={Heavy Flavour Overlap-Removal~(HFOR)}}
+\newglossaryentry{SLAC}{name=SLAC, description={Stanford Linear Accelerator Center}, first={SLAC~(Stanford Linear Accelerator Center)}}
+\newglossaryentry{CPU}{name=CPU, description={Central Processing Unit}, first={Central Processing Unit~(CPU)}}
+\newglossaryentry{SVD}{name=SVD, description={Singular Value Decomposition}, first={Singular Value Decomposition~(SVD)}}
+\newglossaryentry{RMS}{name=RMS, description={Root Mean Square}, first={Root Mean Square~(RMS)}}
+\newglossaryentry{PS}{name=PS, description={Parton Shower}, first={Parton Shower~(PS)}}
+\newglossaryentry{GSC}{name=GSC, description={Global Sequential Calibration}, first={Global Sequential Calibration~(GSC)}}
+\newglossaryentry{PC}{name=PC, description={Personal Computer}, first={PC~(Personal Computer)}}
+\newglossaryentry{ndf}{name=ndf, description={number of degrees of freedom}, first={number of degrees of freedom~(ndf)}}
+\newglossaryentry{TRUEE}{name=TRUEE, description={Time-dependent Regularized Unfolding for Economics and Engineering problems}, first={TRUEE~(Time-dependent Regularized Unfolding for Economics and Engineering problems)}}
+
+
+
+%------------------------------------------------------------------------------------
+%----------------------  No values in newcommands below this line -------------------
+%------------------------------------------------------------------------------------
+% %
+\newcommand{\oned         }{\ensuremath{\mbox{1-dimensional}}\xspace}
+\newcommand{\twod         }{\ensuremath{\mbox{2-dimensional}}\xspace}
+\newcommand{\threed       }{\ensuremath{\mbox{3-dimensional}}\xspace}
+% %
+
+
+\newcommand{\Cutbased     }{\ensuremath{\mbox{Cut-based}}\xspace}
+\newcommand{\cutbased     }{\ensuremath{\mbox{cut-based}}\xspace}
+\newcommand{\Mvabased     }{\gls{BDT}}
+\newcommand{\mvabased     }{\gls{BDT}}
+\newcommand{\SelPurity    }{Selection purity}
+\newcommand{\selPurity    }{selection purity}
+% %
+\newcommand{\XZ           }[3]{\ensuremath{#1\,\pm #2~\mathrm{(stat)}\,\pm #3~\mathrm{(syst)}}\xspace}
+\newcommand{\XZst         }[2]{\ensuremath{#1\,\pm #2~\mathrm{(stat)}}\xspace}
+\newcommand{\XZtot        }[2]{\ensuremath{#1\,\pm #2}\xspace}
+% %
+\newcommand{\ttbar        }{\ensuremath{t\bar{t}}\xspace}
+\newcommand{\ttbarto      }{\ensuremath{\ttbar\to}\xspace}
+\newcommand{\ttbarjj      }{\ensuremath{\ttbar\to\mbox{all-jets}}\xspace}
+\newcommand{\ttbarll      }{\ensuremath{\ttbar\to\mbox{dilepton}}\xspace}
+\newcommand{\ttbarlj      }{\ensuremath{\ttbar\to\mbox{lepton+jets}}\xspace}
+\newcommand{\ttbarj       }{\ensuremath{t\bar{t}+1\mbox{~jet}}\xspace}
+\newcommand{\pp           }{\ensuremath{\ensuremath{pp}}\xspace}
+\newcommand{\ppbar        }{\ensuremath{\ensuremath{p\bar{p}}}\xspace}
+\newcommand{\ppttbar      }{\ensuremath{\pp\to\ttbar}\xspace}
+\newcommand{\WWbb         }{\ensuremath{W W b b}\xspace}
+\newcommand{\WWbbplusminus}{\ensuremath{W^{+} W^{-} b \bar{b}}\xspace}
+% \newcommand{\ttWWbb       }{\ensuremath{tt \to \WWbb}\xspace}
+\newcommand{\ppttbarWWbb  }{\ensuremath{\pp\to tt \to \WWbb}\xspace}
+\newcommand{\ppWWbb       }{\ensuremath{\pp\to \WWbb}\xspace}
+\newcommand{\ljets        }{\ensuremath{l\mbox{+jets}}\xspace}
+\newcommand{\dileptonic   }{\ensuremath{\mbox{dileptonic}}\xspace}
+\newcommand{\semileptonic }{\ensuremath{\mbox{semileptonic}}\xspace}
+\newcommand{\dil          }{\ensuremath{\mbox{dilepton}}\xspace}
+\newcommand{\Dil          }{\ensuremath{\mbox{Dilepton}}\xspace}
+\newcommand{\allh         }{\ensuremath{\mbox{all-hadronic}}\xspace}
+\newcommand{\ee           }{\ensuremath{\mbox{ee}}\xspace}
+\newcommand{\emu          }{\ensuremath{\mbox{e$\mu$}}\xspace}
+\newcommand{\mumu         }{\ensuremath{\mbox{$\mu\mu$}}\xspace}
+\newcommand{\ellell       }{\ensuremath{\mbox{\ell\ell}}\xspace}
+\newcommand{\Wj           }{$W$+jets\xspace}
+\newcommand{\Zj           }{$Z$+jets\xspace}
+\newcommand{\Gammaj       }{$\gamma$+jets\xspace}
+\newcommand{\abseta       }{\ensuremath{|\eta|}\xspace}
+\newcommand{\pt           }{\ensuremath{p_\mathrm{T}}\xspace}
+\newcommand{\px           }{\ensuremath{p_\mathrm{x}}\xspace}
+\newcommand{\py           }{\ensuremath{p_\mathrm{y}}\xspace}
+\newcommand{\pz           }{\ensuremath{p_\mathrm{z}}\xspace}
+\newcommand{\Gt           }{\ensuremath{\Gamma_{\mathrm{top}}}\xspace}
+% %\newcommand{\GW           }{\ensuremath{\Gamma_{\mathrm{W}}}\xspace}
+\newcommand{\mt           }{\ensuremath{m_{\mathrm{top}}}\xspace}
+\newcommand{\mtseven      }{\ensuremath{m_{\mathrm{top}}^{\mathrm{7~\TeV}}}\xspace}
+\newcommand{\mtdl         }{\ensuremath{m_{\mathrm{top}}^{\mathrm{dil}}}\xspace}
+\newcommand{\dmtdl        }{\ensuremath{\Delta m_{\mathrm{top}}^{\mathrm{dil}}}\xspace}
+\newcommand{\dmtlj        }{\ensuremath{\Delta m_{\mathrm{top}}^{\mathrm{l+jets}}}\xspace}
+\newcommand{\mtlj         }{\ensuremath{m_{\mathrm{top}}^{\mathrm{l+jets}}}\xspace}
+\newcommand{\mtcb         }{\ensuremath{m_{\mathrm{top}}^{\mathrm{comb}}}\xspace}
+\newcommand{\mtall        }{\ensuremath{m_{\mathrm{top}}^{\mathrm{all}}}\xspace}
+\newcommand{\mtin         }{\ensuremath{\mt^{\mathrm{in}}}\xspace}
+\newcommand{\mtout        }{\ensuremath{\mt^{\mathrm{out}}}\xspace}
+\newcommand{\mtpole       }{\ensuremath{\mt^{\mathrm{pole}}}\xspace}
+\newcommand{\mtmsbar      }{\ensuremath{\mt^{\mathrm{\gls{MSbar}}}}\xspace}
+\newcommand{\mtMC         }{\ensuremath{\mt^{\mathrm{\gls{MC}}}}\xspace}
+\newcommand{\mlb          }{\ensuremath{m_{\ell b}}\xspace}
+\newcommand{\mlbplus      }{\ensuremath{m_{\ell^+ b}}\xspace}
+\newcommand{\mlbminus     }{\ensuremath{m_{\ell^- b}}\xspace}
+\newcommand{\mlbri        }{\ensuremath{m_{\ell b}^{\mathrm{reco,i}}}\xspace}
+\newcommand{\mlbr         }{\ensuremath{m_{\ell b}^{\mathrm{reco}}}\xspace}
+\newcommand{\mlbt         }{\ensuremath{m_{\ell b}^{\mathrm{truth}}}\xspace}
+\newcommand{\ptlb         }{\ensuremath{p_{T,\ell b}}\xspace}
+\newcommand{\ptlbt        }{\ensuremath{p_{T,\ell b}^{\mathrm{truth}}}\xspace}
+\newcommand{\ptll         }{\ensuremath{p_{T,\ell \ell}}\xspace}
+\newcommand{\ptbb         }{\ensuremath{p_{T,b b}}\xspace}
+\newcommand{\mttwo        }{\ensuremath{m_{\mathrm{T2}}}\xspace}
+\newcommand{\mtr          }{\ensuremath{\mt^{\mathrm{reco}}}\xspace}
+\newcommand{\mtri         }{\ensuremath{\mt^{\mathrm{reco,i}}}\xspace}
+\newcommand{\mW           }{\ensuremath{m_{\mathrm{W}}}\xspace}
+\newcommand{\mll          }{\ensuremath{m_{\ell\ell}}\xspace}
+\newcommand{\mH           }{\ensuremath{m_{\mathrm{H}}}\xspace}
+\newcommand{\mWr          }{\ensuremath{m_{\mathrm{W}}^{\mathrm{reco}}}\xspace}
+\newcommand{\mWri         }{\ensuremath{m_{\mathrm{W}}^{\mathrm{reco,i}}}\xspace}
+\newcommand{\rbqr         }{\ensuremath{R_{\mathrm{bq}}^{\mathrm{reco}}}\xspace}
+\newcommand{\rbqri        }{\ensuremath{R_{\mathrm{bq}}^{\mathrm{reco,i}}}\xspace}
+\newcommand{\dR           }{\ensuremath{\Delta R}\xspace}
+\newcommand{\mWt          }{\ensuremath{m_{\mathrm{T}}^{W}}\xspace}
+\newcommand{\Ht           }{\ensuremath{H_{\mathrm{T}}}\xspace}
+\newcommand{\hdamp        }{\ensuremath{h_{\mathrm{damp}}}\xspace}
+% %
+% %units
+\newcommand{\eV             }{\ensuremath{\mathrm{eV}\xspace}}
+\newcommand{\MeV            }{\ensuremath{\mathrm{MeV}\xspace}}
+\newcommand{\GeV            }{\ensuremath{\mathrm{GeV}\xspace}}
+\newcommand{\TeV            }{\ensuremath{\mathrm{TeV}\xspace}}
+\newcommand{\PeV            }{\ensuremath{\mathrm{PeV}\xspace}}
+\newcommand{\fb             }{\ensuremath{\mathrm{fb}\xspace}}
+\newcommand{\pb             }{\ensuremath{\mathrm{pb}\xspace}}
+\newcommand{\nb             }{\ensuremath{\mathrm{nb}\xspace}}
+\newcommand{\mb             }{\ensuremath{\mathrm{mb}\xspace}}
+\newcommand{\invfb          }{\ensuremath{\mathrm{fb}^{-1}\xspace}}
+\newcommand{\cm             }{\ensuremath{\mathrm{cm}\xspace}}
+\newcommand{\mm             }{\ensuremath{\mathrm{mm}\xspace}}
+\newcommand{\mum            }{\ensuremath{\mu\mathrm{m}\xspace}}
+\newcommand{\neqcm          }{\ensuremath{\mathrm{n}_\mathrm{eq}~\cm^{-2}\xspace}}
+
+% %
+% %-kinematics
+\newcommand{\cme            }{center-of-mass energy\xspace}
+\newcommand{\cmes           }{center-of-mass energies\xspace}
+\newcommand{\met            }{\ensuremath{E_\mathrm{T}^\mathrm{miss}}\xspace}
+\newcommand{\mettruth       }{\ensuremath{E_\mathrm{T, truth}^\mathrm{miss}}\xspace}
+\newcommand{\metx           }{\ensuremath{E_\mathrm{x}^\mathrm{miss}}\xspace}
+\newcommand{\mety           }{\ensuremath{E_\mathrm{y}^\mathrm{miss}}\xspace}
+\newcommand{\et             }{\ensuremath{E_\mathrm{T}}\xspace}
+
+\newcommand{\etaclus        }{\ensuremath{\eta_\mathrm{cluster}}\xspace}
+\newcommand{\absetaclus     }{\ensuremath{\vert\etaclus\vert}\xspace}
+% %
+\newcommand{\nvtx         }{\ensuremath{n_\mathrm{vtx}}\xspace}
+\newcommand{\meanmu       }{\ensuremath{\langle\mu\rangle}\xspace}
+% %
+% %
+\newcommand{\chiq         }{\ensuremath{\chi^2}\xspace}
+\newcommand{\chidof       }{\ensuremath{\chi^2/\mathrm{\glsname{ndf}}}\xspace}
+\newcommand{\lumi         }{\ensuremath{\mathcal L}\xspace}
+\newcommand{\resp         }{\ensuremath{\mathcal R}\xspace}
+\newcommand{\order        }{\ensuremath{\mathcal O}\xspace}
+\newcommand{\intlumi      }{\ensuremath{\int\!\!{\mathcal L}\mathrm{d}t}\xspace}
+\newcommand{\sqrts        }{\ensuremath{{\sqrt{s}}}\xspace}
+\newcommand{\mur          }{\ensuremath{\mu_\mathrm{R}}\xspace}
+\newcommand{\muf          }{\ensuremath{\mu_\mathrm{F}}\xspace}
+\newcommand{\alphas       }{\ensuremath{\alpha_{s}}\xspace}
+\newcommand{\kfac         }{\ensuremath{K}-factor\xspace}
+\newcommand{\LambdaQCD    }{\ensuremath{\Lambda_\mathrm{\gls{QCD}}}\xspace}
+\newcommand{\N            }[1]{\ensuremath{N_{\mathrm{#1}}}\xspace}
+\newcommand{\Egam         }{\ensuremath{\it{egamma}}\xspace}
+\newcommand{\Muon         }{\ensuremath{\it{muon}}\xspace}
+\newcommand{\Njet         }[1]{\ensuremath{N^{\mathrm{#1}}_{\mathrm{jets}}}\xspace}
+\newcommand{\fake         }{\gls{NP}/fake lepton\xspace}
+% %
+% % b-tag newcommands
+\newcommand{\btag         }{\ensuremath{b\mbox{-tagging}}\xspace}
+\newcommand{\btagged      }{\ensuremath{b\mbox{-tagged}}\xspace}
+\newcommand{\bflavoured   }{\ensuremath{b\mbox{-flavoured}}\xspace}
+\newcommand{\cflavoured   }{\ensuremath{c\mbox{-flavoured}}\xspace}
+\newcommand{\bjet         }{\ensuremath{\mathit{b}\mbox{-jet}}\xspace}
+\newcommand{\cjet         }{\ensuremath{\mathit{c}\mbox{-jet}}\xspace}
+\newcommand{\ljet         }{light jet\xspace}
+\newcommand{\Ljet         }{Light jet\xspace}
+\newcommand{\kt           }{\ensuremath{k_\mathrm{t}}\xspace}
+\newcommand{\antikt       }{anti-\kt}
+\newcommand{\bhadron      }{\ensuremath{B\mbox{-hadron}}\xspace}
+
+%particles
+\newcommand\uquark{up~quark\xspace}
+\newcommand\dquark{down~quark\xspace}
+\newcommand\cquark{charm~quark\xspace}
+\newcommand\squark{strange~quark\xspace}
+\newcommand\bquark{bottom~quark\xspace}
+\newcommand\tquark{top~quark\xspace}
+\newcommand\Uquark{Up~quark\xspace}
+\newcommand\Dquark{Down~quark\xspace}
+\newcommand\Cquark{Charm~quark\xspace}
+\newcommand\Squark{Strange~quark\xspace}
+\newcommand\Bquark{Bottom~quark\xspace}
+\newcommand\Tquark{Top~quark\xspace}
+
+\newcommand{\Zbos         }{\ensuremath{Z}\xspace}
+\newcommand{\Zboson       }{\Zbos~boson\xspace}
+\newcommand{\Wbos         }{\ensuremath{W^{\pm}}\xspace}
+\newcommand{\Wboson       }{\Wbos~boson\xspace}
+\newcommand{\Wplusbos     }{\ensuremath{W^{+}}\xspace}
+\newcommand{\Wplusboson   }{\Wplusbos~boson\xspace}
+\newcommand{\Hboson       }{\ensuremath{\mbox{Higgs~boson}}\xspace}
+\newcommand{\Kmeson       }{\ensuremath{K\mbox{~meson}}\xspace}
+\newcommand{\Upsilonmeson }{\ensuremath{\Upsilon\mbox{~meson}}\xspace}
+\newcommand{\Jpsimeson    }{\ensuremath{J/\Psi\mbox{~meson}}\xspace}
+
+% %tdanalysis part F.Balli 02/04/2013
+% %
+
+% %templates part F.Balli 02/04/2013
+\newcommand{\fbkg         }{\ensuremath{f_{\mathrm{bkg}}}\xspace}
+\newcommand{\Ptop         }{\ensuremath{P_{\mathrm{top}}}\xspace}
+\newcommand{\Like         }{\ensuremath{\mathcal{L}_\mathrm{shape}}\xspace}
+\newcommand{\Likedil      }{\ensuremath{\mathcal{L}_\mathrm{shape}^\mathrm{dilep}}\xspace}
+\newcommand{\Likeljets    }{\ensuremath{\mathcal{L}_\mathrm{shape}^\mathrm{l+jets}}\xspace}
+\newcommand{\Ptopsig      }{\ensuremath{P_{\mathrm{top}}^{\mathrm{sig}}}\xspace}
+\newcommand{\Ptopbkg      }{\ensuremath{P_{\mathrm{top}}^{\mathrm{bkg}}}\xspace}
+\newcommand{\PW           }{\ensuremath{P_{\mathrm{W}}}\xspace}
+\newcommand{\PWsig        }{\ensuremath{P_{\mathrm{W}}^{\mathrm{sig}}}\xspace}
+\newcommand{\PWbkg        }{\ensuremath{P_{\mathrm{W}}^{\mathrm{bkg}}}\xspace}
+\newcommand{\Prbq         }{\ensuremath{P_{\mathrm{\mathcal{R}_{bq}}}}\xspace}
+\newcommand{\Prbqsig      }{\ensuremath{P_{\mathrm{\mathcal{R}_{bq}}}^{\mathrm{sig}}}\xspace}
+\newcommand{\Prbqbkg      }{\ensuremath{P_{\mathrm{\mathcal{R}_{bq}}}^{\mathrm{bkg}}}\xspace}
+
+% % Programs
+\newcommand{\Acermc       }{{\sc AcerMC}\xspace}
+\newcommand{\Alpgen       }{{\sc Alpgen}\xspace}
+\newcommand{\AlpgenHerwig }{{\sc Alpgen+Herwig}\xspace}
+\newcommand{\Herwig       }{{\sc Herwig}\xspace}
+\newcommand{\Herwigpp     }{{\sc Herwig++}\xspace}
+\newcommand{\Jimmy        }{{\sc Jimmy}\xspace}
+\newcommand{\Mcatnlo      }{{\sc MC@NLO}\xspace}
+\newcommand{\McatnloHerwig}{{\sc MC@NLO+Herwig}\xspace}
+\newcommand{\Pythia       }{{\sc Pythia}\xspace}
+\newcommand{\PowhegPythia }{{\sc Powheg+Pythia}\xspace}
+\newcommand{\PowhegHerwig }{{\sc Powheg+Herwig}\xspace}
+\newcommand{\Pythiasix    }{{\sc Pythia6}\xspace}
+\newcommand{\Pythiaeight  }{{\sc Pythia8}\xspace}
+\newcommand{\Powheg       }{{\sc Powheg}\xspace}
+\newcommand{\Sherpa       }{{\sc Sherpa}\xspace}
+\newcommand{\Gosam        }{{\sc GoSam}\xspace}
+\newcommand{\Fastjet      }{{\sc FastJet}\xspace}
+\newcommand{\Geantfour    }{{\sc Geant4}\xspace}
+\newcommand{\Atlfast      }{{\sc AtlFast2}\xspace}
+\newcommand{\Roounfold    }{{\sc RooUnfold}\xspace}
+\newcommand{\TRUEE        }{\gls{TRUEE}\xspace}
+\newcommand{\TMVA         }{{\sc TMVA}\xspace}
+\newcommand{\Root         }{{\sc ROOT}\xspace}
+\newcommand{\TRC          }{{\sc TopRootCore}\xspace}
+\newcommand{\Cpp          }{{\sc C++}\xspace}
+
+% % unfolding
+\newcommand{\genl         }{generator\xspace}
+\newcommand{\genlevel     }{\genl\ level\xspace}
+\newcommand{\Genlevel     }{Generator level\xspace}
+\newcommand{\stabl        }{stable particle\xspace}
+\newcommand{\stablevel    }{\stabl\ level\xspace}
+\newcommand{\Stablevel    }{Stable particle level\xspace}
+\newcommand{\recol        }{reconstruction\xspace}
+\newcommand{\recolevel    }{\recol\ level\xspace}
+\newcommand{\Recolevel    }{Reconstruction level\xspace}
+\newcommand{\truel        }{truth\xspace}
+\newcommand{\truelevel    }{\truel\ level\xspace}
+\newcommand{\Truelevel    }{Truth level\xspace}
+
+
+%slang
+\newcommand{\RunOne      }{Run-I\xspace}
+\newcommand{\RunTwo      }{Run-II\xspace}
+\newcommand{\RunThree    }{Run-III\xspace}
+\newcommand{\blayer      }{B-Layer\xspace}
+\newcommand{\layerzero   }{Layer 0\xspace}
+\newcommand{\layerone    }{Layer 1\xspace}
+\newcommand{\layertwo    }{Layer 2\xspace}
+
+
+
+\newcommand\fig{Figure\xspace}
+\newcommand\sect{Section\xspace}
+\newcommand\chap{Chapter\xspace}
+\newcommand\tab{Table\xspace}
+\newcommand\reference{Reference\xspace}
+\newcommand\app{Appendix\xspace}
+% \newcommand\eq{Equation\xspace}
+\newcommand\Fig{Figure\xspace}
+\newcommand\Sect{Section\xspace}
+\newcommand\Chap{Chapter\xspace}
+\newcommand\Tab{Table\xspace}
+\newcommand\Reference{Reference\xspace}
+\newcommand\App{Appendix\xspace}
+% \newcommand\Eq{Equation\xspace}
+
+
+
+
+\newcommand{\todo}[1]{
+  \hspace{0pt}
+  \marginpar{
+    \color{red}\textbf{TODO}
+    % \raggedright\sffamily\footnotesize #1
+  }
+  \footnote{\color{red} \bf{TODO: #1}}
+  \externallink{#1}
+  \color{black}
+}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% S T Y L E
+
+\renewcommand{\baselinestretch}{1.2}
+
+\pagestyle{fancy}
+\fancyhead[LE]{\thepage}
+\fancyhead[RE]{\it \leftmark}
+\fancyhead[RO]{\thepage}
+\fancyhead[LO]{\it \rightmark}
+\fancyfoot[RCL]{}
+
+
+\renewcommand{\chaptermark}[1]{\markboth{ \chaptername\ \thechapter.\ #1}{}}
+\renewcommand{\sectionmark}[1]{\markright{ \thesection.\ #1}}
+\renewcommand{\headrulewidth}{0pt}
+
+% CHAPTER HEADINGS
+\definecolor{ChapterGray}{gray}{0.52}
+
+\titleformat
+{\chapter} % command
+[display] % shape
+{\Huge \color{ChapterGray}\scshape\flushright} % format
+{
+  \normalfont \scshape
+  {\LARGE \chaptername}
+  {\LARGE \thechapter}
+} %label
+{0pt} % sep
+{\Huge \normalfont \scshape\flushright} % before-code
+
+
+%======== Page
+\setlength{\textwidth}{\textwidth+2.5cm}
+\setlength{\headwidth}{\headwidth+1cm}
+\setlength{\headheight}{\headheight+1.6pt}
+\setlength{\oddsidemargin}{\oddsidemargin-6mm}
+\setlength{\evensidemargin}{\evensidemargin-1.9cm}
+\setlength{\topmargin}{\topmargin-1cm}
+\setlength{\textheight}{\textheight+2.5cm}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  B E G I N   D O C U M E N T
+
+\begin{document}
+\pagestyle{empty}
+\selectlanguage{ngerman}
+\input{titlepage.tex}
+
+\cleardoublepage
+
+\chapter*{Zusammenfassung}
+%
+Die Masse des Top Quarks ist ein fundamentaler Parameter des Standardmodells und ihre pr\"azise Bestimmung ist von gro{\ss}er Bedeutung f\"ur die Teilchenphysik. In dieser Dissertation werden Messungen der Top Quark Masse im dileptonischen Zerfallskanal von Top Quark Paaren pr\"asentiert und experimentelle und theoretische Aspekte der Pr\"azisionsmessung untersucht.
+
+Neben technischen Ma{\ss}nahmen zur Gew\"ahrleistung optimaler Nachweiskapazit\"at f\"ur zuk\"unftige Datennahme werden Messungen der Top Quark Masse mit den Daten der Jahre 2011 und 2012 des ATLAS Detektors durchgef\"uhrt, basierend auf Proton-Proton Kollisionen mit einer Schwerpunktsenergie von $\sqrts=7$ und $8$~\TeV. Verschiedene Techniken zur Reduzierung der statistischen und wichtigsten systematischen Unsicherheiten werden angewandt, was zur bisher genauesten Einzelmessung der Top Quark Masse im dileptonischen Top Quark Paar Zerfallskanal weltweit f\"uhrt. Durch eine Kombination mit ATLAS Messungen unter Ber\"ucksichtigung der Korrelationen wird die Pr\"azision weiter erh\"oht. Die in einer Blindstudie ermittelte Masse des Top Quarks ist
+\[
+\mt = \XZ{\CombValue}{\CombStat}{\CombSyst}~\GeV/\mathrm{c}^2 = \XZtot{\CombValue}{\CombTot}~\GeV/\mathrm{c}^2,
+\]
+wobei die Unsicherheit von der begrenzten Aufl\"osung der Jetenergiemessungen dominiert wird. Au{\ss}erdem werden mit einer Entfaltungsmethode die Daten von Detektoreffekten bereinigt und die ersten Schritte zu einer Messung der Top Quark Masse auf dem Niveau stabiler Teilchen durchgef\"uhrt. Anschlie{\ss}end werden die Auswirkungen von vollen \glsname{QCD} Rechnungen in zweiter Ordnung St\"orungstheorie auf Top Quark Massenmessungen untersucht.
+
+% \clearpage
+
+\selectlanguage{english}
+
+\chapter*{Abstract}
+%
+The mass of the \tquark\ is a fundamental parameter of the Standard Model with large implications for particle physics. This dissertation presents measurements of this crucial parameter in the \dileptonic\ \tquark\ pair decay channel and investigates experimental and theoretical aspects for its precise determination.
+
+Along with the detector upgrades to ensure optimal detection capability in future operation of the \glsname{LHC}, measurements at proton-proton \cmes\ of $\sqrts=7$ and $8$~\TeV\ using the data recorded by the \glsname{ATLAS} detector in the years 2011 and 2012 are carried out. Means to constrain the statistical and most important systematic uncertainties are identified, leading to the single most precise determination of the \tquark\ mass in the \dileptonic\ \tquark\ pair decay channel to date. The achieved precision is improved by exploiting the correlations of \glsname{ATLAS} measurements in a combination. The combined blinded result of the \tquark\ mass is
+\[
+\mt = \XZ{\CombValue}{\CombStat}{\CombSyst}~\GeV/\mathrm{c}^2 = \XZtot{\CombValue}{\CombTot}~\GeV/\mathrm{c}^2,
+\]
+with the dominant uncertainty contributed by the imperfect determination of the jet energies. Using an unfolding procedure to correct for detector effects, the first steps towards a measurement of the top quark mass at \stablevel\ are performed, followed by an investigation of the implications of calculations with full next-to-leading order \glsname{QCD} corrections on \tquark\ mass measurements.
+
+
+\cleardoublepage
+
+
+\pagestyle{fancy}
+% \setcounter{page}{1}
+% \setcounter{secnumdepth}{3}
+% \setcounter{tocdepth}{3}
+
+\pagenumbering{Roman}
+\chapter*{Table of contents}
+\renewcommand{\contentsname}{}
+\tableofcontents
+\cleardoublepage
+
+\pagenumbering{arabic}
+
+%%%%%%%%%%%%%%%%%%%%%%%% I N T R O D U C T I O N
+\input{intro.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%% Top Quark Physics
+\input{topphysics.tex} %done
+
+%%%%%%%%%%%%%%%%%%%%%%%% The ATLAS Experiment
+\input{atlas.tex} %done
+
+\input{pixel.tex} %done
+
+%%%%%%%%%%%%%%%%%%%%%%%% Top quark mass measurements
+\input{topmass7TeV.tex} %done
+
+\input{topmass8TeV.tex}
+
+\input{topmasscombinations.tex} %done
+
+%%%%%%%%%%%%%%%%%%%%%%%% Unfolding
+\input{unfolding.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%% NLO comparison
+\input{nlo.tex} %done
+
+% %%%%%%%%%%%%%%%%%%%%%%%% C O N C L U S I O N
+\input{conclusion.tex}
+
+
+% %%%%%%%%%%%%%%%%%%%%%%% I S S U E S   T O   C L A R I F Y
+%  \cleardoublepage
+% \phantomsection
+% \addcontentsline{toc}{chapter}{ISSUES TO CLARIFY}
+% \listoflinks
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%% A C K N O W L E D G M E N T S
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{chapter}{Acknowledgements}
+\pagestyle{plain}
+
+  {\vspace*{0.2cm}\begin{flushright}
+	  \color{ChapterGray}\Huge \scshape Acknowledgements\\
+	  \end{flushright}
+  }
+  \vspace{0.3cm}
+
+  This page is dedicated to the people, who contributed with their efforts to the successful finalisation of this work. I can impossibly compile a comprehensive list of all my colleagues and friends who helped me on my way and I would hereby like to ask you, whom I have not listed here, for forgiveness.
+
+  I would like to thank Richard Nisius for close supervision, fruitful critique and knowledgeable advice. The level of support and opportunities have kept exceeding my expectations until today. My time as a PhD student was a great experience.
+
+  I would like to thank Giorgio Cortiana for providing me with the technical skills, the professional environment and the stamina necessary to perform a physics analysis.
+%
+  Similarly, I would like to thank Gabriele Compostela for indefatigably answering my questions and always helping me out of technical difficulties.
+%
+  I would also like to thank Kerstin Lantzsch und Tayfun Ince for introducing me to the world of pixel detector science and giving me the opportunity to join the underground team at \gls{ATLAS}.
+
+  I would like to thank the Max-Planck-Institute for Physics and Prof.~Bethke in particular for the various opportunities to develop personal and professional skills.
+
+  Finally, I would like to thank my parents for the continuous support during my years of study and my brother for manifold advice.
+
+  % Finally, I would like to express my gratitude to the European population for financing fundamental research, carrying on the efforts of the Greek philosophers of nature with the technical means of the 21$^\mathrm{st}$ century.
+
+  \flushright {Andreas Alexander Maier \\ March 2016, M\"unchen}
+% \newpage
+% \thispagestyle{empty}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%% A P P E N D I X
+% \appendix
+% \cleardoublepage
+% \pagestyle{fancy}
+
+% \begin{appendices}
+% % \addcontentsline{toc}{chapter}{Appendices}
+% \input{app_JESsyst.tex}
+% \end{appendices}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%% G L O S S A R Y
+{
+\clearpage
+\phantomsection
+\chapter*{Glossary}
+\addcontentsline{toc}{chapter}{Glossary}
+\footnotesize
+\begin{multicols}{2}
+\printglossaries
+\end{multicols}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%% F I G U R E S
+ % \clearpage
+ % \cleardoublepage
+{
+\phantomsection
+\renewcommand{\listfigurename}{}
+\chapter*{List of figures}
+\vspace{-3cm}
+\addcontentsline{toc}{chapter}{List of figures}
+\footnotesize
+\listoffigures
+}
+
+\begingroup
+\renewcommand{\cleardoublepage}{}
+\renewcommand{\clearpage}{}
+
+%%%%%%%%%%%%%%%%%%%%%%%% T A B L E S
+ % \clearpage
+ % \cleardoublepage
+ {
+\phantomsection
+\renewcommand{\listtablename}{}
+\chapter*{List of tables}
+\vspace{-3cm}
+\addcontentsline{toc}{chapter}{List of tables}
+\footnotesize
+\listoftables
+}
+
+\endgroup
+
+
+%%%%%%%%%%%%%%%%%%%%%%%% R E F E R E N C E S
+ \clearpage
+ % \cleardoublepage
+\phantomsection
+\bibliographystyle{atlasnote}
+{
+\addcontentsline{toc}{chapter}{Bibliography}
+\footnotesize
+\bibliography{main}
+}
+\end{document}
