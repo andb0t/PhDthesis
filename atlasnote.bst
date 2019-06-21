@@ -4,7 +4,7 @@
 %
 % History:
 %		2008-11-06 (MC) fixed bugs in format.collaboration and format.journal
-%		2008-10-24 (MC) changed journal, title and \etal italicization 
+%		2008-10-24 (MC) changed journal, title and \etal italicization
 %		2008-10-22 (MC) adapted collaboration entry from
 %              utphysics.bst by Jacques Distler
 %
@@ -252,7 +252,7 @@ FUNCTION {format.archive}
   archivePrefix empty$
       { "" }
       { archivePrefix ":" *}
-  if$            
+  if$
 }
 
 FUNCTION {format.primaryClass}
@@ -260,17 +260,17 @@ FUNCTION {format.primaryClass}
   primaryClass empty$
       { "" }
       { " [" primaryClass * "]" *}
-  if$            
+  if$
 }
 
 FUNCTION {format.eprint}
 { eprint empty$
      { ""}
      { archive empty$
-          {"\href{http://arxiv.org/abs/" eprint * "}" * 
+          {"\href{http://arxiv.org/abs/" eprint * "}" *
              "{{\tt " * format.archive * eprint *
               "}}" *}
-          {"\href{" archive *  "/" * eprint * "}" * 
+          {"\href{" archive *  "/" * eprint * "}" *
              "{{\tt " * format.archive * eprint *
               "}}" *}
        if$
@@ -669,7 +669,7 @@ FUNCTION {format.incoll.inproc.crossref}
 }
 
 FUNCTION {format.journal}
-{ journal missing$   
+{ journal missing$
     { "" }
     {journal " " *
      format.volume *
@@ -690,7 +690,7 @@ FUNCTION {article}
   format.title "title" output.check
   blank.sep
   crossref missing$
-  { journal missing$   
+  { journal missing$
         {}
         { format.journal add.doi "journal" output.check}
       if$
@@ -961,7 +961,7 @@ FUNCTION {misc}
   format.date output
   new.block
   crossref missing$
-  { journal missing$   
+  { journal missing$
         {}
         { format.journal add.doi "journal" output.check}
       if$
@@ -1161,7 +1161,7 @@ FUNCTION {begin.bib}
     { preamble$ write$ newline$ }
   if$
   "\providecommand{\href}[2]{#2}"
-  "\begingroup\raggedright\begin{thebibliography}{" * longest.label  * 
+  "\begingroup\raggedright\begin{thebibliography}{" * longest.label  *
   "}" * write$ newline$ }
 
 EXECUTE {begin.bib}
