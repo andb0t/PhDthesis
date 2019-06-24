@@ -5,13 +5,20 @@ Feel free to profit from the LateX setup, which is far from perfect, but beautif
 ## Official website
 https://publications.mppmu.mpg.de/?action=search&mpi=MPP-2016-76
 
-## Instructions to build
+## Workflow suggestion
+Use hot reloading with
+```bash
+make hot
+```
+and open the file in a pdf viewer that supports file updates (e.g. `xpdf`).
+
+## Setup
 Install LateX
 ```bash
 sudo apt -y install texlive-full
 ```
 
-Build with 
+Build with
 ```bash
 make
 ```

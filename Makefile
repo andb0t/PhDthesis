@@ -6,6 +6,9 @@ DROPBOX := $(shell echo "$(DROPBOX)" | sed 's/ /\\ /g')
 all:
 	$(TEX) main
 
+hot:
+	$(TEX) -pvc main
+
 clean:
 	latexmk -outdir=out -c
 
