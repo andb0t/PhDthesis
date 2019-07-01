@@ -10,7 +10,7 @@ Use hot reloading with
 ```bash
 make hot
 ```
-and open the file in a pdf viewer that supports file updates (e.g. `xpdf`).
+and open the file in a pdf viewer that supports file updates (e.g. `xpdf` or `SumatraPDF`). Configure `latexmk`'s `$pdf_previewer` option to start it automatically.
 
 ## Setup
 Install LateX
